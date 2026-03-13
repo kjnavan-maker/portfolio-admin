@@ -22,6 +22,10 @@ function Home() {
     message: "",
   });
 
+  const BACKEND_BASE_URL =
+    import.meta.env.VITE_IMAGE_BASE_URL ||
+    "https://portfolio-admin-i6v3.onrender.com";
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -290,13 +294,19 @@ function Home() {
     profile?.aboutExtra ||
     "Currently pursuing my Bachelor's degree in Software Engineering at ESU - Jaffna, I have completed my Higher National Diploma and gained hands-on experience through various projects including e-commerce platforms, UI/UX design, and data analysis applications.";
 
-  const profileImage =
-    !imgError &&
-    (profile?.image ||
-      profile?.profileImage ||
-      profile?.avatar ||
-      profile?.photo ||
-      "/images/navaneethan.jpeg");
+  const resolvedProfileImage =
+    profile?.image ||
+    profile?.profileImage ||
+    profile?.avatar ||
+    profile?.photo ||
+    "";
+
+  const finalProfileImage =
+    !imgError && resolvedProfileImage
+      ? resolvedProfileImage.startsWith("http")
+        ? resolvedProfileImage
+        : `${BACKEND_BASE_URL}${resolvedProfileImage}`
+      : "/images/navaneethan.jpeg";
 
   const normalizeSkillProgress = (skill) => {
     if (typeof skill?.progress === "number") return skill.progress;
@@ -555,15 +565,11 @@ function Home() {
             <div className="hero-image" data-aos="fade-left">
               <div className="hero-avatar">
                 <div className="avatar-circle">
-                  {profileImage ? (
-                    <img
-                      src={profileImage}
-                      alt=""
-                      onError={() => setImgError(true)}
-                    />
-                  ) : (
-                    <i className="fas fa-user"></i>
-                  )}
+                  <img
+                    src={finalProfileImage}
+                    alt={fullName}
+                    onError={() => setImgError(true)}
+                  />
                 </div>
                 <div className="avatar-glow"></div>
               </div>
@@ -587,8 +593,12 @@ function Home() {
 
           <div className="about-content">
             <div className="about-image" data-aos="fade-right">
-              <div className="about-avatar">
-                <i className="fas fa-user-graduate"></i>
+              <div className="about-avatar about-avatar-image">
+                <img
+                  src={finalProfileImage}
+                  alt={fullName}
+                  onError={() => setImgError(true)}
+                />
               </div>
             </div>
 

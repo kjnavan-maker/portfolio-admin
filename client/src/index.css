@@ -1492,3 +1492,11 @@ section {
   border-color: var(--color-primary);
   box-shadow: 0 0 10px rgba(0,212,255,0.3);
 }
+
+.about-avatar-image img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.08);
+}
