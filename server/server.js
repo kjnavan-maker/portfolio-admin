@@ -10,6 +10,7 @@ import educationRoutes from "./routes/educationRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 
+
 dotenv.config();
 
 const app = express();
@@ -25,6 +26,7 @@ app.use("/api/certificates", certificateRoutes);
 app.use("/api/education", educationRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => {
   res.send("Portfolio API running...");
