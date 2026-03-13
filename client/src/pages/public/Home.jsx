@@ -593,14 +593,20 @@ function Home() {
 
           <div className="about-content">
             <div className="about-image" data-aos="fade-right">
-              <div className="about-avatar about-avatar-image">
-                <img
-                  src={finalProfileImage}
-                  alt={fullName}
-                  onError={() => setImgError(true)}
-                />
-              </div>
-            </div>
+  {profile?.showAboutImage && finalProfileImage ? (
+    <div className="about-avatar about-avatar-image">
+      <img
+        src={finalProfileImage}
+        alt={fullName}
+        onError={() => setImgError(true)}
+      />
+    </div>
+  ) : (
+    <div className="about-avatar">
+      <i className="fas fa-user-graduate"></i>
+    </div>
+  )}
+</div>
 
             <div className="about-text" data-aos="fade-left">
               <h3>Hello! I&apos;m {firstName}</h3>

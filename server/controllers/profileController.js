@@ -6,7 +6,6 @@ const deleteFileIfExists = (filePath) => {
   if (!filePath) return;
 
   const fullPath = path.join(process.cwd(), filePath.replace(/^\/+/, ""));
-
   if (fs.existsSync(fullPath)) {
     fs.unlinkSync(fullPath);
   }
@@ -24,6 +23,7 @@ export const getProfile = async (req, res) => {
         location: "Jaffna, Sri Lanka",
         bio: "Motivated Software Engineering student.",
         image: "",
+        showAboutImage: false,
       });
     }
 
@@ -36,7 +36,15 @@ export const getProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { fullName, email, phone, location, bio, removeImage } = req.body;
+    const {
+      fullName,
+      email,
+      phone,
+      location,
+      bio,
+      removeImage,
+      showAboutImage,
+    } = req.body;
 
     if (!fullName?.trim()) {
       return res.status(400).json({ message: "Full name is required" });
@@ -56,6 +64,7 @@ export const updateProfile = async (req, res) => {
         location: location?.trim() || "",
         bio: bio?.trim() || "",
         image: "",
+        showAboutImage: showAboutImage === "true",
       });
     } else {
       profile.fullName = fullName.trim();
@@ -63,6 +72,7 @@ export const updateProfile = async (req, res) => {
       profile.phone = phone?.trim() || "";
       profile.location = location?.trim() || "";
       profile.bio = bio?.trim() || "";
+      profile.showAboutImage = showAboutImage === "true";
     }
 
     if (removeImage === "true") {
